@@ -167,6 +167,18 @@ table.m tfoot td{border-bottom:0;border-top:2px solid var(--ink);font-weight:700
 .btn.ghost{background:none;color:var(--muted);text-decoration:underline;padding-inline:6px}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 .status{font-size:14px;font-weight:600;color:var(--ok)}
+.shipto{border:1px solid var(--line-strong);border-radius:10px;padding:14px 16px 16px;margin:0;display:grid;gap:10px;min-width:0}
+.shipto legend{font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink);padding:0 6px}
+.st-help{margin:0;font-size:14px;color:var(--muted)}
+.st-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+.st-name,.st-co{grid-column:span 6}.st-street{grid-column:span 8}.st-apt{grid-column:span 4}.st-city{grid-column:span 6}.st-state{grid-column:span 3}.st-zip{grid-column:span 3}
+.fld select{width:100%;background:var(--field);border:1px solid var(--field-line);border-radius:8px;padding:10px 12px;min-height:44px;color:var(--ink)}
+.fld input.bad,.fld select.bad{border-color:var(--warn);border-width:2px}
+@media (max-width:640px){.st-name,.st-co,.st-street,.st-apt,.st-city{grid-column:span 12}.st-state,.st-zip{grid-column:span 6}}
+.invoice-note{margin:0;font-size:14px;color:var(--ink)}
+.invoice-note b{color:var(--gold-ink)}
+table.m tfoot tr.sub2 td{border-top:0;font-weight:500;padding-top:4px;color:var(--muted)}
+table.m tfoot tr.grand td{border-top:1px solid var(--line-strong);font-weight:800;padding-top:8px}
 .submitbox{display:grid;gap:12px;background:var(--sel);border:1px solid var(--line-strong);border-radius:10px;padding:16px}
 .sb-row{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
 .btn.big{font-size:17px;padding:14px 28px;min-height:52px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
@@ -220,11 +232,12 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     <ol class="steps">
       <li><span class="n">1</span><p><b>Check the box</b> next to each item you want. Tap a photo to see it larger.</p></li>
       <li><span class="n">2</span><p><b>Enter quantities</b> for each size (or color). Leave the rest blank.</p></li>
-      <li><span class="n">3</span><p><b>Hit Submit order</b> at the bottom. It comes straight to us. No email needed.</p></li>
+      <li><span class="n">3</span><p><b>Add your ship-to address</b> and hit Submit order. We’ll email you an invoice to approve before anything is made.</p></li>
     </ol>
     <div class="who">
       <label class="fld"><span>Ordered by</span><input id="f-name" type="text" autocomplete="name" placeholder="Your name"></label>
-      <label class="fld"><span>Email or phone <em>(optional)</em></span><input id="f-contact" type="text" autocomplete="email" placeholder="So we can confirm the order"></label>
+      <label class="fld"><span>Email <em>(for your invoice)</em></span><input id="f-contact" type="email" autocomplete="email" placeholder="you@company.com"></label>
+      <label class="fld"><span>Phone <em>(optional)</em></span><input id="f-phone" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></label>
       <label class="fld"><span>Needed by</span><input id="f-needed" type="date"></label>
     </div>
     <nav class="jump" id="jump" aria-label="Jump to section"></nav>
@@ -239,8 +252,22 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     </div>
     <div class="mbody">
       <div class="tablewrap" id="m-table"></div>
-      <label class="fld"><span>Notes (names for gifts, ship-to address, anything else)</span><textarea id="f-notes" placeholder="e.g. Ship polos to the Dallas office. Ornaments go out with the holiday cards."></textarea></label>
+      <fieldset class="shipto" id="shipto">
+        <legend>Ship to</legend>
+        <p class="st-help">Where should this order go? US addresses only.</p>
+        <div class="st-grid">
+          <label class="fld st-name"><span>Recipient name</span><input id="s-name" type="text" autocomplete="shipping name" placeholder="Same as Ordered by if blank"></label>
+          <label class="fld st-co"><span>Company <em>(optional)</em></span><input id="s-company" type="text" autocomplete="shipping organization" placeholder="Solvix Logistics"></label>
+          <label class="fld st-street"><span>Street address</span><input id="s-street" type="text" autocomplete="shipping address-line1" placeholder="123 Main St"></label>
+          <label class="fld st-apt"><span>Apt, suite, floor <em>(optional)</em></span><input id="s-apt" type="text" autocomplete="shipping address-line2" placeholder="Suite 200"></label>
+          <label class="fld st-city"><span>City</span><input id="s-city" type="text" autocomplete="shipping address-level2"></label>
+          <label class="fld st-state"><span>State</span><select id="s-state" autocomplete="shipping address-level1"><option value="">Choose…</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option></select></label>
+          <label class="fld st-zip"><span>ZIP</span><input id="s-zip" type="text" inputmode="numeric" autocomplete="shipping postal-code" maxlength="10" placeholder="12345"></label>
+        </div>
+      </fieldset>
+      <label class="fld"><span>Notes (gift recipients, special requests, anything else)</span><textarea id="f-notes" placeholder="e.g. Ornaments go out with the holiday cards."></textarea></label>
       <div class="submitbox" id="submitbox">
+        <p class="invoice-note"><b>No charge today.</b> We’ll email you an invoice with final shipping and any sales tax. Your order goes into production once you approve it.</p>
         <div class="sb-row">
           <button class="btn pri big" id="submit" type="button" aria-disabled="true">Submit order</button>
           <p class="sb-help" id="sb-help">Add your name and at least one item to submit.</p>
@@ -266,7 +293,7 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
   </section>
 
   <footer class="fine">
-    <p class="pcol">Prices are per item and include the logo embroidery or print shown. Shipping and sales tax are not included.</p>
+    <p class="pcol">Prices are per item and include the logo embroidery or print shown. Shipping is estimated from standard US rates; your invoice shows the final shipping and any sales tax.</p>
     <p>Everything is made to order. Photos are digital mockups; thread and print colors may vary slightly from screen to finished piece.</p>
     <p>Submit order sends your picks straight to Adeul Intelligence. Your picks also stay saved on this device until you clear them.</p>
   </footer>
@@ -294,8 +321,9 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const byId = Object.fromEntries(DATA.items.map(i => [i.id, i]));
 
-  let state = {q:{}, on:{}, name:'', contact:'', needed:'', notes:'', sentAt:''};
+  let state = {q:{}, on:{}, name:'', contact:'', phone:'', needed:'', notes:'', ship:{}, sentAt:''};
   try { const raw = localStorage.getItem(KEY); if (raw) { const s = JSON.parse(raw); if (s && typeof s === 'object') state = Object.assign(state, s); } } catch(e) {}
+  if (!state.ship || typeof state.ship !== 'object') state.ship = {};
   let saveT;
   function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }, 250); }
 
@@ -444,12 +472,48 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     amt = round2(amt);
     document.querySelectorAll('[data-gct]').forEach(s => { const n = gct[s.dataset.gct] || 0; s.textContent = n; s.classList.toggle('on', n > 0); });
     $('#bar-amt').textContent = NOPRICE ? (pcs ? `${pcs} ${pcs === 1 ? 'piece' : 'pieces'}` : 'No items yet') : fmt(amt);
-    $('#bar-ct').textContent = NOPRICE ? (picked ? `${picked} ${picked === 1 ? 'item' : 'items'} checked` : 'Check items to start') : (picked ? `${picked} ${picked === 1 ? 'item' : 'items'} · ${pcs} ${pcs === 1 ? 'piece' : 'pieces'}` : 'No items yet');
+    $('#bar-ct').textContent = NOPRICE ? (picked ? `${picked} ${picked === 1 ? 'item' : 'items'} checked` : 'Check items to start') : (picked ? `${picked} ${picked === 1 ? 'item' : 'items'} · ${pcs} ${pcs === 1 ? 'piece' : 'pieces'}${pcs ? ' · + about ' + fmt(shipEst()) + ' shipping' : ''}` : 'No items yet');
     renderManifest(pcs, amt);
     $('#plain').value = summaryText();
     refreshSubmit(pcs, amt);
     save();
   }
+
+  /* ---------- shipping estimate (Printful standard US rates) ---------- */
+  const SHIP = {shirt:[4.95,2.20], hood:[8.79,2.50], hat:[4.69,2.00], beanie:[4.69,2.00], tote:[4.69,2.00], pad:[4.69,2.00], desk:[12.49,3.50], mug11:[6.69,3.50], mug15:[7.29,4.00], tumbler:[6.69,2.00], journal:[5.69,3.25], sticker:[4.49,0.05], ornament:[5.49,0.80], blanket:[13.99,4.00]};
+  const SEPARATE = new Set(['hat', 'mug11', 'mug15', 'journal', 'sticker', 'blanket']);
+  const SHIPCAT = {'hoodie':'hood', 'hoodie-b':'hood', 'hoodie-c':'hood', 'quarterzip':'hood', 'polo-white':'shirt', 'polo-navy':'shirt', 'polo-women':'shirt', 'tee':'shirt', 'hat':'hat', 'beanie':'beanie', 'mug-a':'mug', 'mug-b':'mug', 'tumbler':'tumbler', 'deskmat':'desk', 'mousepad':'pad', 'notebook-a':'journal', 'notebook-b':'journal', 'tote':'tote', 'stickers':'sticker', 'ornament-a':'ornament', 'ornament-b':'ornament', 'sherpa':'blanket'};
+  function shipEst(){
+    const counts = {};
+    DATA.items.forEach(it => lines(it).forEach(l => { let c = SHIPCAT[it.id]; if (c === 'mug') c = /15/.test(l.s) ? 'mug15' : 'mug11'; counts[c] = (counts[c] || 0) + l.n; }));
+    let total = 0; const together = [];
+    Object.entries(counts).forEach(([c, n]) => { const [one, add] = SHIP[c] || [8.79, 2.50]; if (SEPARATE.has(c)) total += one + add * (n - 1); else together.push([one, add, n]); });
+    if (together.length) {
+      const base = together.reduce((m, x) => x[0] > m[0] ? x : m);
+      total += base[0] - base[1];
+      together.forEach(([one, add, n]) => { total += add * n; });
+    }
+    return round2(total);
+  }
+  const SF = ['name', 'company', 'street', 'apt', 'city', 'state', 'zip'];
+  function sv(k){ return ((state.ship || {})[k] || '').trim(); }
+  function shipLines(){
+    const L = [];
+    L.push(sv('name') || state.name.trim());
+    if (sv('company')) L.push(sv('company'));
+    L.push(sv('street') + (sv('apt') ? ', ' + sv('apt') : ''));
+    L.push(`${sv('city')}, ${sv('state')} ${sv('zip')}`.trim());
+    return L.filter(x => x && x !== ',');
+  }
+  function shipMissing(){
+    const miss = [];
+    if (!sv('street')) miss.push('street');
+    if (!sv('city')) miss.push('city');
+    if (!sv('state')) miss.push('state');
+    if (!/^\d{5}(-?\d{4})?$/.test(sv('zip'))) miss.push('ZIP');
+    return miss;
+  }
+  function emailOk(){ return /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test((state.contact || '').trim()); }
 
   function renderManifest(pcs, amt){
     const wrap = $('#m-table');
@@ -461,7 +525,7 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
       const q = itemQty(it);
       return `<tr><td>${esc(fullName(it))}<span class="sub"><span class="mono">${it.code}</span>${it.colors.length > 1 ? '' : ' · ' + esc(it.colors[0])}</span></td><td>${sizeTxt}</td><td class="r num">${q || '—'}</td>${NOPRICE ? '' : `<td class="r num">${q ? fmt(round2(itemAmt(it))) : '—'}</td>`}</tr>`;
     }).join('');
-    wrap.innerHTML = `<table class="m"><thead><tr><th>Item</th><th>Sizes × qty</th><th class="r">Pcs</th>${NOPRICE ? '' : '<th class="r">Amount</th>'}</tr></thead><tbody>${rows}</tbody><tfoot><tr><td>Total</td><td></td><td class="r num">${pcs}</td>${NOPRICE ? '' : `<td class="r num">${fmt(amt)}</td>`}</tr></tfoot></table>`;
+    wrap.innerHTML = `<table class="m"><thead><tr><th>Item</th><th>Sizes × qty</th><th class="r">Pcs</th>${NOPRICE ? '' : '<th class="r">Amount</th>'}</tr></thead><tbody>${rows}</tbody><tfoot><tr><td>${NOPRICE ? 'Total' : 'Items subtotal'}</td><td></td><td class="r num">${pcs}</td>${NOPRICE ? '' : `<td class="r num">${fmt(amt)}</td>`}</tr>${NOPRICE || !pcs ? '' : `<tr class="sub2"><td>Est. shipping <span class="sub">Standard US rates · final on your invoice</span></td><td></td><td></td><td class="r num">${fmt(shipEst())}</td></tr><tr class="grand"><td>Est. total before tax</td><td></td><td></td><td class="r num">${fmt(round2(amt + shipEst()))}</td></tr>`}</tfoot></table>`;
   }
   function groupByColor(it, ls){
     const m = [];
@@ -476,7 +540,8 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     const L = [];
     L.push('SOLVIX GEAR ORDER');
     L.push('Ordered by: ' + (state.name.trim() || '—'));
-    if ((state.contact || '').trim()) L.push('Contact: ' + state.contact.trim());
+    if ((state.contact || '').trim()) L.push('Email: ' + state.contact.trim());
+    if ((state.phone || '').trim()) L.push('Phone: ' + state.phone.trim());
     if (state.needed) L.push('Needed by: ' + niceDate(state.needed));
     L.push('');
     let pcs = 0, amt = 0, any = false;
@@ -494,14 +559,18 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     });
     if (!any) L.push('(no items checked yet)', '');
     L.push('TOTAL: ' + pcs + (pcs === 1 ? ' pc' : ' pcs') + (NOPRICE ? '' : ' · ' + fmt(round2(amt))));
-    if (!NOPRICE) L.push('Shipping & tax not included.');
+    if (!NOPRICE && pcs) { const sh = shipEst(); L.push('Est. shipping: ' + fmt(sh) + ' (standard US)'); L.push('Est. total before tax: ' + fmt(round2(amt + sh))); }
+    if (!shipMissing().length) { L.push(''); L.push('SHIP TO:'); shipLines().forEach(x => L.push('   ' + x)); }
+    L.push(''); L.push('Final shipping and any sales tax will be on your invoice.');
     if (state.notes.trim()) { L.push(''); L.push('Notes: ' + state.notes.trim()); }
     return L.join('\n');
   }
 
   /* ---------- fields & actions ---------- */
-  const fName = $('#f-name'), fContact = $('#f-contact'), fNeed = $('#f-needed'), fNotes = $('#f-notes');
-  fName.value = state.name || ''; fContact.value = state.contact || ''; fNeed.value = state.needed || ''; fNotes.value = state.notes || '';
+  const fName = $('#f-name'), fContact = $('#f-contact'), fPhone = $('#f-phone'), fNeed = $('#f-needed'), fNotes = $('#f-notes');
+  fName.value = state.name || ''; fContact.value = state.contact || ''; fPhone.value = state.phone || ''; fNeed.value = state.needed || ''; fNotes.value = state.notes || '';
+  fPhone.addEventListener('input', () => { state.phone = fPhone.value; update(); });
+  SF.forEach(k => { const el = $('#s-' + k); el.value = (state.ship || {})[k] || ''; el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', () => { state.ship[k] = el.value; el.classList.remove('bad'); update(); }); });
   fName.addEventListener('input', () => { state.name = fName.value; update(); });
   fContact.addEventListener('input', () => { state.contact = fContact.value; update(); });
   fNeed.addEventListener('input', () => { state.needed = fNeed.value; update(); });
@@ -524,9 +593,10 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
   $('#clear').addEventListener('click', () => { $('#confirm').hidden = false; $('#clear-no').focus(); });
   $('#clear-no').addEventListener('click', () => { $('#confirm').hidden = true; });
   $('#clear-yes').addEventListener('click', () => {
-    state = {q:{}, on:{}, name:'', contact:'', needed:'', notes:'', sentAt:''};
+    state = {q:{}, on:{}, name:'', contact:'', phone:'', needed:'', notes:'', ship:{}, sentAt:''};
     document.querySelectorAll('.cell input').forEach(i => i.value = '');
-    fName.value = fContact.value = fNeed.value = fNotes.value = '';
+    fName.value = fContact.value = fPhone.value = fNeed.value = fNotes.value = '';
+    SF.forEach(k => { $('#s-' + k).value = ''; });
     $('#confirm').hidden = true; setStatus('Order cleared.');
     update();
   });
@@ -535,7 +605,7 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
 
   /* ---------- submit (Google Form) ---------- */
   const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLScsARUUXrSa2oVFrK09y2Nf06Cj4rPw4C7zvj-PvRAJevJnZw/formResponse';
-  const F = {name:'entry.774195304', contact:'entry.1255874143', needed:'entry.670533138', order:'entry.188072235', pcs:'entry.807464020', total:'entry.1516116408', notes:'entry.712990961'};
+  const F = {name:'entry.774195304', contact:'entry.1255874143', needed:'entry.670533138', order:'entry.188072235', pcs:'entry.807464020', total:'entry.1516116408', shipping:'entry.1531146340', notes:'entry.712990961', shipto:'entry.426616518'};
   const TO = 'contact@adeulintelligence.com';
   const submitA = $('#submit'), sbHelp = $('#sb-help'), sentEl = $('#sent');
   function orderDetails(){
@@ -552,20 +622,26 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     const t = totals();
     const p = new URLSearchParams();
     p.set(F.name, state.name.trim());
-    if ((state.contact || '').trim()) p.set(F.contact, state.contact.trim());
+    const contact = [(state.contact || '').trim(), (state.phone || '').trim()].filter(Boolean).join(' · ');
+    if (contact) p.set(F.contact, contact);
     if (state.needed) p.set(F.needed, niceDate(state.needed));
     p.set(F.order, orderDetails());
     p.set(F.pcs, String(t.pcs));
     if (!NOPRICE) p.set(F.total, fmt(t.amt));
+    p.set(F.shipping, fmt(shipEst()));
+    p.set(F.shipto, shipLines().join('\n'));
     if (state.notes.trim()) p.set(F.notes, state.notes.trim());
     p.set('submit', 'Submit');
     return FORM + '?' + p.toString();
   }
   function problem(){
     if (!state.name.trim()) return 'Add your name at the top of the sheet to submit.';
+    if (!emailOk()) return 'Add your email at the top so we can send your invoice.';
     if (!totals().pcs) return 'Enter a quantity for at least one item to submit.';
     const unfilled = DATA.items.filter(it => state.on[it.id] && !itemQty(it));
     if (unfilled.length) return `${unfilled.map(it => it.code).join(', ')} ${unfilled.length === 1 ? 'is' : 'are'} checked with no quantity. Enter sizes or uncheck ${unfilled.length === 1 ? 'it' : 'them'}.`;
+    const miss = shipMissing();
+    if (miss.length) return `Add the ship-to ${miss.length > 1 ? miss.slice(0, -1).join(', ') + ' and ' + miss[miss.length - 1] : miss[0]} to submit.`;
     if (submitUrl().length > 60000) return 'This order is too long to send in one go. Use Download Excel copy and email it to ' + TO + '.';
     return '';
   }
@@ -573,11 +649,11 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
   function refreshSubmit(pcs, amt){
     const why = problem();
     submitA.setAttribute('aria-disabled', why ? 'true' : 'false');
-    sbHelp.textContent = why || `Sends ${pcs} ${pcs === 1 ? 'piece' : 'pieces'}${NOPRICE ? '' : ' (' + fmt(amt) + ')'} straight to Adeul Intelligence.`;
+    sbHelp.textContent = why || `Sends ${pcs} ${pcs === 1 ? 'piece' : 'pieces'}${NOPRICE ? '' : ' (about ' + fmt(round2(amt + shipEst())) + ' with shipping)'} straight to Adeul Intelligence.`;
     sbHelp.classList.toggle('warnt', !!why);
     if (state.sentAt) {
       sentEl.hidden = false;
-      sentEl.innerHTML = `<b>Order sent ${esc(niceTime(state.sentAt))}.</b> We’ve got it. Adeul Intelligence will confirm your order and the final total. Changed something? Submit again and we’ll use the latest one.`;
+      sentEl.innerHTML = `<b>Order sent ${esc(niceTime(state.sentAt))}.</b> We’ve got it. Watch your email for the invoice to approve. Changed something? Submit again and we’ll use the latest one.`;
     } else sentEl.hidden = true;
     const subj = `Solvix gear order${state.name.trim() ? ' — ' + state.name.trim() : ''}`;
     $('#mailto').href = `mailto:${TO}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(summaryText())}`;
@@ -629,21 +705,22 @@ body.noprice .price, body.noprice .up, body.noprice .line .amt, body.noprice .pc
     const t = totals();
     const today = new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
     const head = NOPRICE ? ['Item #', 'Item', 'Color', 'Size', 'Qty'] : ['Item #', 'Item', 'Color', 'Size', 'Qty', 'Each', 'Line total'];
-    const rows = [['Solvix Gear Order'], ['Ordered by', state.name.trim()], ['Email or phone', (state.contact || '').trim()], ['Needed by', niceDate(state.needed)], ['Order date', today], [], head];
+    const rows = [['Solvix Gear Order'], ['Ordered by', state.name.trim()], ['Email', (state.contact || '').trim()], ['Phone', (state.phone || '').trim()], ['Needed by', niceDate(state.needed)], ['Order date', today], ['Ship to', shipLines().join(', ')], [], head];
     DATA.items.forEach(it => lines(it).forEach(l => {
       const r = [it.code, fullName(it), l.c, l.s, l.n];
       if (!NOPRICE) r.push(l.p, round2(l.p * l.n));
       rows.push(r);
     }));
-    const tot = ['', 'Total', '', '', t.pcs]; if (!NOPRICE) tot.push('', t.amt);
-    rows.push(tot, []);
-    if (!NOPRICE) rows.push(['Shipping and sales tax not included.']);
+    const tot = ['', NOPRICE ? 'Total' : 'Items subtotal', '', '', t.pcs]; if (!NOPRICE) tot.push('', t.amt);
+    rows.push(tot);
+    if (!NOPRICE) { const sh = shipEst(); rows.push(['', 'Est. shipping (standard US)', '', '', '', '', sh], ['', 'Est. total before tax', '', '', '', '', round2(t.amt + sh)]); }
+    rows.push([], ['Final shipping and any sales tax will be on your invoice. We place the order after you approve it.']);
     if (state.notes.trim()) rows.push(['Notes', state.notes.trim()]);
     rows.push(['Send to', TO]);
     const ws = X.utils.aoa_to_sheet(rows);
     ws['!cols'] = [{wch: 9}, {wch: 46}, {wch: 20}, {wch: 14}, {wch: 6}, {wch: 10}, {wch: 12}];
     if (!NOPRICE) {
-      const r0 = 7, r1 = rows.length;
+      const r0 = 9, r1 = rows.length;
       for (let r = r0; r < r1; r++) ['F', 'G'].forEach(c => { const cell = ws[c + (r + 1)]; if (cell && typeof cell.v === 'number') cell.z = '$#,##0.00'; });
     }
     const wb = X.utils.book_new(); X.utils.book_append_sheet(wb, ws, 'Order');
